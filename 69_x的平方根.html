@@ -1,0 +1,16 @@
+<script>
+    var mySqrt = function (x) {
+        if (x < 2) return x; 
+
+        var l = 1, h = x;
+
+        while (h - l > 1) {
+            m = parseInt((h + l) / 2);
+            if (m * m == x) return m;
+            if (m * m > x) h = m;
+            if (m * m < x) l = m;
+        }
+        return l;
+    };
+</script>
+

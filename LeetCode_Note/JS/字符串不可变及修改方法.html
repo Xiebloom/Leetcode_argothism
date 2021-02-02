@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>双指针</title>
+<script>
+
+    var reverseVowels = function(s) {
+
+        //先将s数组拆分成字符串
+        s = s.split('');
+
+        var i = 0, j = s.length-1;
+
+        while( i < j){
+
+            while ( (!isVowel(s[i])) && i < j )  {
+                i++;
+            }  
+            while ( (!isVowel(s[j])) && j > i) {
+                j--;
+            }    
+
+            // [s[i],s[j] ] = [ s[j], s[i] ];
+            var tmp = s[i];
+            s[i] = s[j];
+            s[j] = tmp;
+            i++; j--;
+        }
+    
+        s.join('');
+        return s;
+    };
+
+    function isVowel(s){
+    //此处的 if 也是可以改进的，用Arr.indexOf()
+    if (s == 'a' || s =='e' || s =='i' || s =='o' || s =='u')    return true;   //没有考虑到大写
+    else return false;
+    }
+
+    s='hello';
+    s1 = reverseVowels(s);
+
+    console.log(reverseVowels(s) + ' ' + s1);
+
+
+
+</script>
+</head>
+<body>
+    <h1>我的第一个标题</h1>
+    <p>我的第一个段落。</p>
+</body>
+</html>

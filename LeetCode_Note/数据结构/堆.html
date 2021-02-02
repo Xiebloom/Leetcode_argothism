@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>数据结构_堆</title>
+    <script>
+
+        //----------数据结构上实现-----------------//
+
+        //--------1. 数据结构的定义： 数组
+        let arr = [1, 2, 3, 4, 5, 6, 7];
+        //arr.unshift(null);  记得算法中要在头部插入null方便计算
+
+        //--------2. 主要操作
+        //----- 1. 大顶堆调整（Max-Heapify）：将堆的末端子节点做调整，使得子节点永远小于父节点；
+
+        // 递归算法
+        function maxHeapify(arr, i, size) {  //arr为数组，里面放着堆; i为被和子节点比较的元素的位置; size为这个堆的大小
+            //--- 1.1 判断孩子的存在，并比较孩子节点中较大的一个
+            let left = 2 * i, right = left + 1;
+            let maxlr = -1;
+
+            //LC > size，即该节点无LC
+            if (left > size) return;
+            //RC <= size，即有两个C,取较大的那个 
+            else if (right <= size) maxlr = arr[left] > arr[right] ? left : right;
+            // left = size， 即只有左孩子
+            else maxlr = left;
+
+            //--- 1.2 判断是否需要交换P和C的值，有的话就交换
+            //--- 1.3 交换后，新的数值可能使子树失去大顶性，因此还需要向下重新排序
+            if (arr[i] < arr[maxlr]) {
+                [arr[i], arr[maxlr]] = [arr[maxlr], arr[i]];
+                maxHeapify(arr, maxlr, size);
+            }
+        }
+
+        // ----- 2. 创建大顶堆
+        function buildMaxHeap(arr) {
+            //--- 2.0 判断参数是否是数组
+            if (!Array.isArray(arr)) return null;
+
+            //--- 2.1 插入null
+            arr.unshift(null);
+
+            //--- 2.2 找到最后倒2层最后一个节点，自下而上排序
+            let i = Math.floor( (arr.length-1) / 2 );   //注意是math.floor，因为此时的length = 2i +1 +1(加了个null)
+            for ( ; i > 0; i--) {
+                maxHeapify(arr, i, arr.length - 1); //注意length - 1;
+            }
+
+            //--- 2.3 将null排除
+            arr.shift();
+        }
+
+        // ----- 3. 堆排序
+        function heapSort(arr){
+            //--- 3.1 插入null
+            arr.unshift(null);
+
+            //--- 3.2 将堆顶和堆尾调换，同时利用j--分离出最大的元素
+            for ( let j = arr.length-1; j > 0; j--){
+                [ arr[1], arr[j] ] = [ arr[j], arr[1]];
+            //--- 3.3 重新进行堆调整，保持大顶
+                maxHeapify(arr, 1, j-1);    
+            }
+
+            //--- 3.4 shift
+            arr.shift();
+        }
+
+        //--------测试——---------//
+        
+        //创建大顶堆
+        arr = [1,2,3,4,5,6,7,8];
+        buildMaxHeap(arr);
+        console.log(arr);   
+
+        //堆排序
+        heapSort(arr);        
+        console.log(arr);
+        
+
+
+
+    </script>
+</head>
+
+<body>
+    <h1>我的第一个标题</h1>
+    <p>我的第一个段落。</p>
+    <!-- <input type = "button" value = "Click me" onclick="alert('行内式')"/> -->
+</body>
+
+
+
+</html>

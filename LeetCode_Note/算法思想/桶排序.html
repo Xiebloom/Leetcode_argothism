@@ -1,0 +1,51 @@
+<script>
+
+    var bucketSort = function (testArr, bucketsize) {
+        //桶排序
+        //---1. 将所有数据按照一定范围放到各个桶中
+        //-----1.1 利用最大值/最小值/桶的数量，决定每个桶的间隔
+        var maxValue = testArr[0], minValue = testArr[0];
+        var DEFAULT_BUCKET_SIZE = 5;
+        bucketsize = bucketsize || DEFAULT_BUCKET_SIZE;
+
+        for (var i = 0; i < testArr.length; i++) {
+            if (maxValue < testArr[i]) maxValue = testArr[i];
+            if (minValue > testArr[i]) minValue = testArr[i]
+        }
+        var interval = (maxValue - minValue) / bucketsize;
+
+        //------1.2 计算每个元素的对应桶号，将元素放进去
+        var buckets = [];
+        var j = 0;
+        for (var i = 0; i < testArr.length; i++) {
+            j = parseInt((testArr[i] - minValue) / interval);
+            if (buckets[j]) buckets[j].push(testArr[i])
+            else buckets[j] = [testArr[i]];
+        }
+
+        //---2. 对桶内数据进行排序
+        for (var i = 0; i < bucketsize; i++) {
+            if (buckets[i]) buckets[i].sort((a, b) => (a - b));
+        }
+        console.log(buckets)
+
+        //---3. 将所有桶的数据结合，导出
+        var result = [];
+        for (var i = 0; i < bucketsize; i++) {
+
+            if (buckets[i]) {
+                console.log(buckets[i]);
+                result.push(...buckets[i]);
+            }
+        }
+
+        return result;
+    }
+
+    var testArr = [1, 2, 4, 5, 8, 9, 0, 2, 3, 5, 1, 4, 8, 3];
+    var arrAfterSort = bucketSort(testArr, 5);
+    console.log(arrAfterSort);
+
+
+
+</script>
